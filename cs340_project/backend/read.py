@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-import pandas as pd
 from __future__ import print_function
+import pandas as pd
+import matplotlib.pyplot as plt
 from argparse import ArgumentParser, Action
 import os
 
@@ -100,15 +101,37 @@ class Read(object):
                     df.drop(columns_to_drop, axis=1)
         return data
     
+    def histogram(self, data, name):
+        if not name in data.columns:
+            return -1
+        if data[name].dtype == pd.object:
+            return 1
+        else:
+            pic, ax = plt.subplots()
+            data.hist(column=name, ax=ax)
+            pic.savefig('example.png')
+            exe = 'example.png'
+            return(os.path.abspath(exe))
+    
     def main(self):
         pathname = self.param['dir']
         data = self.read_pathname(pathname)
         data = self.drop_columns(data)
         data = self.rename_columns(data)
         print("Congratulations!  You're dataset is ready for learning!")
+        col_name = input("Would you like a histogram of any of your columns?")
+        location = self.histogram(data, col_name)
         return
         
         
+        
+        
+        
+        
+
+
+
+    
         
         
         
