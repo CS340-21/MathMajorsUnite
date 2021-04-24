@@ -183,3 +183,21 @@ def edit_file(request):
   context['pk'] = pk
 
   return render(request, 'preprocessing/edit_file.html', context)
+
+def visualize_data(request, pk):
+  context = {}
+
+  # if request.method == 'POST':
+  #   pk = request.POST.getlist('pk')[0]
+
+  # Retrieve file from database:
+  f = Text.objects.get(pk=pk)
+  context['name'] = f.title
+
+  # Make pandas dataframe of file:
+  df = pd.read_csv(f.filename())
+  context['columns'] = df.columns
+
+  context['pk'] = pk
+
+  return render(request, 'preprocessing/visualize.html', context)

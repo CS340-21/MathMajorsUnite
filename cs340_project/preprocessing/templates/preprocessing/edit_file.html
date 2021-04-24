@@ -18,7 +18,7 @@
             {% for c in columns %}
             <tr>
                 <th>{{ c }}</th>
-                <form method="post" action="{% url 'rename'%}">
+                <form method="post" action="{% url 'rename' %}">
                     {% csrf_token %}
                     <th>
                         <input type='text' name='new_name'>

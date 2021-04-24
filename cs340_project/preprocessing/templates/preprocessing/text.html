@@ -10,11 +10,6 @@
     <div class="col-sm-6">
         <div class="card">
             <div class="card-body">
-                <!-- <form method="post" enctype='multipart/form-data'>
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary">Upload file</button>
-                </form> -->
                 <form action="{% url 'upload_text' %}">
                     <div class="text-center">
                         <button class='btn btn-primary btn-sm' style='font-size: 30px'>Upload CSVs</button>
@@ -68,4 +63,8 @@
         <button class='btn btn-primary btn-lg' style='font-size: 20px'>Start Processing!</button>
     </div>
 </form>
+
+
+<h2 class="text-center mt-4">Visualization</h2>
+<p>Visualize your high-dimensional data</p>
 {% endblock content %}

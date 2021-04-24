@@ -43,6 +43,7 @@
             <th>Rows</th>
             <th>Columns</th>
             <th>Generate Report</th>
+            <th>Visualize</th>
             <th>Edit Files</th>
         </tr>
     </thread>
@@ -71,6 +72,12 @@
                 <form method='post' action="{% url 'generate_report' tx.pk %}">
                     {% csrf_token %}
                     <button type="submit" class='btn btn-primary btn-sm'>Generate Report</button>
+                </form>
+            </td>
+            <td>
+                <form method='post' action="{% url 'visualize' tx.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class='btn btn-primary btn-sm'>Visualize Data</button>
                 </form>
             </td>
             <td>
@@ -127,8 +134,7 @@
 </form>
 
 <!-- I formatted the section above so that it is in the center of the page (hopefully it won't cause problems) -->
-
-<h2 class="text-center mt-4">Editing Columns</h2>
+<!-- <h2 class="text-center mt-4">Editing Columns</h2> -->
 <!-- button for calling function to edit columns -->
 <!-- {% if code %}
     <h1>{{ fn_code }}</h1>

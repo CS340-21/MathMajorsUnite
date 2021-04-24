@@ -7,6 +7,10 @@ from django.core.files.storage import FileSystemStorage
 from .forms import ImagesForm, TextForm
 from .models import Images, Text
 
+# BACKEND IMPORT
+import sys, os; sys.path.append('backend')
+import reduce_and_normalize
+
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -47,6 +51,22 @@ def rename(request):
     # Actually renaming the columns
 
     return redirect('edit_file')
+
+def pass_visualizations(request, pk):
+    '''Gets data from visualization call, call visualizer function'''
+
+    if request.method == 'POST':
+        col = request.POST.get('chosen_col', None)
+        tech = request.POST.get('reduce_technique', None)
+        
+        f = Text.objects.get(pk=pk)
+        df = pd.read_csv(f.filename())
+        name = f.title
+
+        reduce_and_normalize.get_reduction(df, col, tech, name)
+
+    # Redirects to initial visualization page
+    return redirect('visualize', pk=pk)
 
 def redirect_text_process(request, fn_code = 0):
     '''Idea: pass a function code (int) to fn_code, call the function based off its code'''
