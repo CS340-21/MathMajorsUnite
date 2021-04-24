@@ -19,7 +19,8 @@ urlpatterns = [
     path('process_text/edit/', views.edit_file, name = 'edit_file'),
     path('process_text/edit/rename/', processing.rename, name = 'rename'),
     path('process_image/', processing.redirect_img_process, name = 'img_call'),
-    
+    path('process_text/visualize<int:pk>/', views.visualize_data, name = 'visualize'),
+    path('process_text/visualize<int:pk>/pass_visualization<int:pk/', processing.pass_visualizations, name = 'pass_vis')
 ]
 
 if settings.DEBUG:

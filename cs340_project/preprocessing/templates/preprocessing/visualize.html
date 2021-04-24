@@ -1,0 +1,48 @@
+{% extends 'preprocessing/base.html' %}
+{% block content %}
+
+<div class="jumbotron">
+    <h1 class="display-4">Visualize {{ name }}</h1>
+    <p class="lead">Visualize your high-dimensional data using principal component analysis (PCA) or t-stochastic neighbor embedding (t-SNE).</p>
+</div>
+
+<h2>Choose Column<h2>
+
+<form method='post' action="{% url 'pass_vis' pk %}">
+    {% csrf_token %}
+    <!--Drop down menu for column names-->
+    <div class="custom-select">
+        <select name="chosen_col">
+            <!-- <select name = "dropdown">
+                <option value = "Computer Architecture" selected>Computer Architecture</option>
+                <option value = "Java">Java</option>
+                <option value = "Discrete Mathematics">Discrete Mathematics</option>
+            </select> -->
+            {% for c in columns %}
+                <!-- <input type='hidden' name='pk' value="{{ pk }}"> -->
+                <!-- <input type='hidden' name='c' value="{{ c }}"> -->
+                <option value="{{ c }}">{{ c }}</option> 
+            {% endfor %}
+        </select>
+    </div>
+
+    <h2>Choose Reduction Technique</h2>
+    <!--Drop down Menu for type of visualization-->
+    <div class="custom-select">
+        <select name="reduce_technique">
+            <option value="-1">-----</option>
+            <option value="0">PCA</option>
+            <option value="1">T-SNE</option>
+        </select>
+    </div>
+
+    <!-- <input type='hidden' name="col" value="chosen_col">
+    <input type='hidden' name="tech" value="reduce_technique"> -->
+    <button type="submit" class='btn btn-primary btn-sm'>Visualize</button>
+</form>
+
+<!--Show image if needed-->
+
+
+
+{% endblock content %}
