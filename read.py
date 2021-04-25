@@ -3,6 +3,7 @@ from __future__ import print_function
 import pandas as pd
 import matplotlib.pyplot as plt
 from argparse import ArgumentParser, Action
+from sklearn.linear_model import LinearRegression
 import os
 
 class Parameters(Action):
@@ -23,13 +24,13 @@ class Read(object):
     def read_files(self, dirname, num=0):
         # IF ONLY ONE FILE
         if num == 1:
-            files = pd.read_csv(dirname)
+            files = pd.read_csv(dirname, index_col=False)
             return files
         
         # ELSE ALL FILES
         files = []
         for file in os.listdir(dirname):
-            files.append(pd.read_csv(file))
+            files.append(pd.read_csv(file, index_col=False))
         
         # MERGE
         merge = input("Do you want to merge files?\n")
@@ -55,7 +56,7 @@ class Read(object):
     
     def get_new_columns(self, columns):
         new_columns = {columns[i]: columns[i] for i in range(len(columns))} 
-        edit = input("Edit or continue?\n")
+        edit = input("Edit or Continue?\n")
         if edit == "Continue":
             return new_columns
         
@@ -107,8 +108,6 @@ class Read(object):
     def histogram(self, data, name):
         if not name in data.columns:
             return -1
-        '''if not data[name].str:
-            return 1'''
         try:
             data[name] = data[name].astype(float)
         except:
@@ -118,20 +117,42 @@ class Read(object):
         data.hist(column=name, ax=ax)
         pic.savefig('hist.png')
         exe = 'hist.png'
-        return(os.path.abspath(exe))
+        return os.path.abspath(exe)
+    
+    def regress(self, data, name):
+        if not name in data.columns:
+            return -1
+        try:
+            data[name] = data[name].astype(float)
+        except:
+            return 1
+        
+        
+        y = data[name]
+        x = data.drop(name, axis=1)
+        lr = LinearRegression()
+        lr.fit(x,y)
+        'print(lr.score(x,y))'
+        print("\n{} = {}".format(name, lr.intercept_))
+        for index, item in enumerate(lr.coef_):
+            print(" + {}*{}".format(item, x.columns[index]))
+        print("\nModel generated has an R^2 of {} on the given data!".format(lr.score(x,y)))
+        return lr
     
     def main(self):
         pathname = self.params['dir']
         data = self.read_pathname(pathname)
-        data.to_csv(self.params['dir'])
+        data.to_csv(self.params['dir'], index=False)
         data = self.drop_columns(data)
-        data.to_csv(self.params['dir'])
+        data.to_csv(self.params['dir'], index=False)
         data = self.rename_columns(data)
-        data.to_csv(self.params['dir'])
+        data.to_csv(self.params['dir'], index=False)
         print("Congratulations!  You're dataset is ready for learning!\n")
-        col_name = input("Would you like a histogram of any of your columns?")
+        col_name = input("Would you like a histogram of any of your columns?\n")
         location = self.histogram(data, col_name)
-        print(location)
+        print(data.columns)
+        col_name_2 = input("Which column are you trying to predict?\n")
+        self.regress(data,col_name_2) #regression = 
         return
     
 if __name__ == "__main__":
