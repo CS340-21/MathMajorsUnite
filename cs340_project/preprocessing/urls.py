@@ -18,9 +18,12 @@ urlpatterns = [
     path('process_text/merge/', processing.merge, name = 'merge'),
     path('process_text/edit/', views.edit_file, name = 'edit_file'),
     path('process_text/edit/rename/', processing.rename, name = 'rename'),
+    path('process_text/edit/drop_cols/', processing.drop_cols, name = 'drop'),
     path('process_image/', processing.redirect_img_process, name = 'img_call'),
     path('process_text/visualize<int:pk>/', views.visualize_data, name = 'visualize'),
-    path('process_text/visualize<int:pk>/pass_visualization<int:pk/', processing.pass_visualizations, name = 'pass_vis')
+    path('process_text/visualize<int:pk>/pass_visualization<int:pk/', processing.pass_visualizations, name = 'pass_vis'),
+    path('text/regression/', views.regression_main, name='regression_main'),
+    path('text/regression/<int:pk>/', views.regression_file, name='regression_file')
 ]
 
 if settings.DEBUG:

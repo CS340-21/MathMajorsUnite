@@ -133,6 +133,11 @@
     <br>
 </form>
 
+<form action="{% url 'preprocessing-text' %}">
+    {% csrf_token %}
+    <button>Back to Overview</button>
+</form>
+
 <!-- I formatted the section above so that it is in the center of the page (hopefully it won't cause problems) -->
 <!-- <h2 class="text-center mt-4">Editing Columns</h2> -->
 <!-- button for calling function to edit columns -->

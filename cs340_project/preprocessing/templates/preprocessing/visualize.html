@@ -6,6 +6,11 @@
     <p class="lead">Visualize your high-dimensional data using principal component analysis (PCA) or t-stochastic neighbor embedding (t-SNE).</p>
 </div>
 
+<!-- <p><a href="{% url 'process_text' %}">Back to Processing</a></p> -->
+<form action="{% url 'process_text' %}">
+    <button>Back to Processing</button>
+</form>
+
 <h2>Choose Label</h2>
     <p>Choose the column to use as your label for visualizing the dataset.</p>
 
@@ -49,7 +54,5 @@
 <!-- {% load static %} -->
 <img src='data:image/png;base64, {{ img|safe }}' alt="Visualization of Data">
 {% endif %}
-
-
 
 {% endblock content %}
