@@ -161,9 +161,9 @@ class Read(object):
         data = self.rename_columns(data)
         data.to_csv(self.params['dir'], index=False)
         print("Congratulations!  You're dataset is ready for learning!\n")
-        col_name = input("Would you like a histogram of any of your columns?\n")
-        location = self.histogram(data, col_name)
-        print(data.columns)
+#        col_name = input("Would you like a histogram of any of your columns?\n")
+#        location = self.histogram(data, col_name)
+#        print(data.columns)
         col_name_2 = input("Which column are you trying to predict?\n")
         self.regress(data,col_name_2) #regression = 
         return
