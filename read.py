@@ -139,6 +139,18 @@ class Read(object):
         print("\nModel generated has an R^2 of {} on the given data!".format(lr.score(x,y)))
         return lr
     
+    def new_drop_column(self, filename, column):
+        df = self.read_files(filename)
+        df = df.drop(column)
+        df.to_csv(filename, index=False)
+        return
+    
+    def new_rename_column(self, filename, column, new_column_name):
+        df = self.read_files(filename)
+        df = df.rename({column:new_column_name})
+        df.to_csv(filename, index=False)
+        return
+    
     def main(self):
         pathname = self.params['dir']
         data = self.read_pathname(pathname)
