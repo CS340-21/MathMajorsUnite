@@ -52,6 +52,11 @@ def rename(request):
 
     return redirect('edit_file')
 
+def drop_cols(request):
+
+
+    return redirect('edit_file')
+
 def pass_visualizations(request, pk):
     '''Gets data from visualization call, call visualizer function'''
 

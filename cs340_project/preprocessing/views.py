@@ -224,3 +224,30 @@ def visualize_data(request, pk):
       context['img'] = myplot
 
   return render(request, 'preprocessing/visualize.html', context)
+
+def regression_main(request):
+  # Loads the regression page
+  context = {}
+
+  context['texts'] = Text.objects.all()
+
+  if request.method == 'POST':
+    pk = request.POST.get('pk', -1)
+    if pk == -1:
+      return render(request, 'preprocessing/regression_main.html', context)
+
+    f = Text.objects.get(pk=pk)
+    context['name'] = f.title
+
+  return render(request, 'preprocessing/regression_main.html', context)
+
+def regression_file(request, pk):
+
+  context = {}
+
+  f = Text.objects.get(pk=pk)
+  context['name'] = f.title
+
+  # Run regression
+
+  return render(request, '', context)

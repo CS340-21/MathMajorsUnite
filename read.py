@@ -105,21 +105,22 @@ class Read(object):
                     df = df.drop(columns_to_drop, axis=1)
         return data
     
-    def histogram(self, data, name):
-        if not name in data.columns:
-            return -1
-        try:
-            data[name] = data[name].astype(float)
-        except:
-            return 1
+#    def histogram(self, data, name):
+#        if not name in data.columns:
+#            return -1
+#        try:
+#            data[name] = data[name].astype(float)
+#        except:
+#            return 1
 
-        pic, ax = plt.subplots()
-        data.hist(column=name, ax=ax)
-        pic.savefig('hist.png')
-        exe = 'hist.png'
-        return os.path.abspath(exe)
+#        pic, ax = plt.subplots()
+#        data.hist(column=name, ax=ax)
+#        pic.savefig('hist.png')
+#        exe = 'hist.png'
+#        return os.path.abspath(exe)
     
-    def regress(self, data, name):
+    def regress(self, filename, name):
+        data = self.read_files(filename)
         if not name in data.columns:
             return -1
         try:
@@ -132,12 +133,24 @@ class Read(object):
         x = data.drop(name, axis=1)
         lr = LinearRegression()
         lr.fit(x,y)
-        'print(lr.score(x,y))'
-        print("\n{} = {}".format(name, lr.intercept_))
+        out = ""
+        out += "\n{} = {}".format(name, '{:.2f}'.format(lr.intercept_))
         for index, item in enumerate(lr.coef_):
-            print(" + {}*{}".format(item, x.columns[index]))
-        print("\nModel generated has an R^2 of {} on the given data!".format(lr.score(x,y)))
-        return lr
+            out += " + {}*{}".format('{:.2f}'.format(item), x.columns[index])
+        out += "\nModel generated has an R^2 of {} on the given data!".format('{:.2f}'.format(lr.score(x,y)))
+        return out
+    
+    def new_drop_column(self, filename, column):
+        df = self.read_files(filename)
+        df = df.drop(column)
+        df.to_csv(filename, index=False)
+        return
+    
+    def new_rename_column(self, filename, column, new_column_name):
+        df = self.read_files(filename)
+        df = df.rename({column:new_column_name})
+        df.to_csv(filename, index=False)
+        return
     
     def main(self):
         pathname = self.params['dir']
@@ -148,9 +161,9 @@ class Read(object):
         data = self.rename_columns(data)
         data.to_csv(self.params['dir'], index=False)
         print("Congratulations!  You're dataset is ready for learning!\n")
-        col_name = input("Would you like a histogram of any of your columns?\n")
-        location = self.histogram(data, col_name)
-        print(data.columns)
+#        col_name = input("Would you like a histogram of any of your columns?\n")
+#        location = self.histogram(data, col_name)
+#        print(data.columns)
         col_name_2 = input("Which column are you trying to predict?\n")
         self.regress(data,col_name_2) #regression = 
         return
