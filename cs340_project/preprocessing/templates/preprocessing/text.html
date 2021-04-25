@@ -65,6 +65,12 @@
 </form>
 
 
-<h2 class="text-center mt-4">Visualization</h2>
-<p>Visualize your high-dimensional data</p>
+<h2 class="text-center mt-4">Linear Regression</h2>
+<p>Run linear regression on your data!</p>
+<form action="{% url 'regression_main' %}">
+    <div class="text-center">
+        <button class='btn btn-primary btn-lg' style='font-size: 20px'>Start Processing!</button>
+    </div>
+</form>
+
 {% endblock content %}

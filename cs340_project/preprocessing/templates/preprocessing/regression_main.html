@@ -1,0 +1,40 @@
+{% extends 'preprocessing/base.html' %}
+{% block content %}
+
+<div class="jumbotron">
+    <h1 class="display-4">Linear Regression</h1>
+    <p class="lead">Run linear regression on any of your files.</p>
+</div>
+
+<table class="table">
+    <thead>
+        <th>File Name</th>
+        <th>Regression</th>
+    </thead>
+    <tbody>
+        {% for tx in texts %}
+        <tr>
+            <td>{{ tx.title }}</td>
+            <td>
+                <!-- <form method="post" action="{% url 'regression_file' tx.pk %}"> -->
+                <form method="post" action="{% url 'regression_main' %}">
+                    {% csrf_token %}
+                    <input type='hidden' name='pk' value="{{ tx.pk }}">
+                    <button type="submit" class='btn btn-primary btn-sm'>Run Regression</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if name %}
+<p> NAME </p>
+{% endif %}
+
+<form method="post" action="{% url 'preprocessing-text' %}">
+    {% csrf_token %}
+    <button>Back to Overview</button>
+</form>
+
+{% endblock content %}

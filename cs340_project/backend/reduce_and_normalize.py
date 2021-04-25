@@ -10,6 +10,10 @@ import io
 import urllib, base64
 
 def get_img(fig, dpi = 200):
+    '''
+    fig: Figure from Matplotlib
+    fig, ax = plt.subplots()
+    '''
     buf = io.BytesIO()
     fig.savefig(buf, format = 'png', dpi = dpi)
     buf.seek(0)
@@ -33,6 +37,8 @@ def get_reduction(df, col, tech, name):
     x = df.select_dtypes(include=np.number).to_numpy()
     y = list(df[col]) # Guaranteed that col is in dataframe
 
+    plt.switch_backend('AGG')
+
     if int(tech) == 0: # PCA
         pca = PCA(n_components = 2)
         pca.fit(x)
@@ -42,8 +48,6 @@ def get_reduction(df, col, tech, name):
     elif int(tech) == 1:
         embed = TSNE(n_components = 2).fit_transform(x)
         tname = 'TSNE'
-
-    plt.switch_backend('AGG')
 
     # Partition into labels:
     each_lab = {yi:[] for yi in set(y)}
