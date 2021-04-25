@@ -25,7 +25,7 @@ def get_reduction(df, col, tech, name):
     '''
     df: dataframe
     col: column
-    tech: technique code (0 for PCA, 1 for TSNE)
+    tech: technique code (0 for PCA, 1 for TSNE, 2 for Histogram)
     name: filename
     '''
 
@@ -33,6 +33,8 @@ def get_reduction(df, col, tech, name):
     x = df.select_dtypes(include=np.number).to_numpy()
     y = list(df[col]) # Guaranteed that col is in dataframe
 
+    plt.switch_backend('AGG')
+        
     if int(tech) == 0: # PCA
         pca = PCA(n_components = 2)
         pca.fit(x)
@@ -42,8 +44,12 @@ def get_reduction(df, col, tech, name):
     elif int(tech) == 1:
         embed = TSNE(n_components = 2).fit_transform(x)
         tname = 'TSNE'
-
-    plt.switch_backend('AGG')
+        
+    elif int(tech) == 2:
+        fig, ax = plt.subplots()
+        df.hist(column=col, ax=ax)
+        fig.set_size_inches(10, 8)
+        return get_img(fig)
 
     # Partition into labels:
     each_lab = {yi:[] for yi in set(y)}
