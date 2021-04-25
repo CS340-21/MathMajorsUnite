@@ -119,7 +119,8 @@ class Read(object):
 #        exe = 'hist.png'
 #        return os.path.abspath(exe)
     
-    def regress(self, data, name):
+    def regress(self, filename, name):
+        data = self.read_files(filename)
         if not name in data.columns:
             return -1
         try:
