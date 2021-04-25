@@ -32,7 +32,7 @@ class Read(object):
             files.append(pd.read_csv(file))
         
         # MERGE
-        merge = input("Do you want to merge files?")
+        merge = input("Do you want to merge files?\n")
         if merge == "Yes":
             files = pd.concat(files)
         else:
@@ -55,12 +55,12 @@ class Read(object):
     
     def get_new_columns(self, columns):
         new_columns = {columns[i]: columns[i] for i in range(len(columns))} 
-        edit = input("Edit or continue?")
-        if edit == "continue":
+        edit = input("Edit or continue?\n")
+        if edit == "Continue":
             return new_columns
         
         for col in new_columns.keys():
-            new_name = input("Input new column name or keep name {}.".format(col))
+            new_name = input("Input new column name or keep name {}.\n".format(col))
             if new_name != None:
                 new_columns[col] = new_name
         
@@ -70,12 +70,12 @@ class Read(object):
         
         try:
             column_names = self.get_new_columns(data.columns)
-            data.rename(columns = column_names)
+            data = data.rename(columns = column_names)
 
         except:
             for df in data:
                 column_names = self.get_new_columns(df.columns)
-                df.rename(columns = column_names)
+                df = df.rename(columns = column_names)
         return data
     
     def to_drop(self, columns):
@@ -94,12 +94,12 @@ class Read(object):
         try:
             columns_to_drop = self.to_drop(data.columns)
             if columns_to_drop:
-                data.drop(columns_to_drop, axis=1)
+                data = data.drop(columns_to_drop, axis=1)
         except:
             for df in data:
                 columns_to_drop = self.to_drop(df.columns)
                 if columns_to_drop:
-                    df.drop(columns_to_drop, axis=1)
+                    df = df.drop(columns_to_drop, axis=1)
         return data
     
     def histogram(self, data, name):
@@ -121,9 +121,12 @@ class Read(object):
     def main(self):
         pathname = self.params['dir']
         data = self.read_pathname(pathname)
+        data.to_csv(self.params['dir'])
         data = self.drop_columns(data)
+        data.to_csv(self.params['dir'])
         data = self.rename_columns(data)
-        print("Congratulations!  You're dataset is ready for learning!")
+        data.to_csv(self.params['dir'])
+        print("Congratulations!  You're dataset is ready for learning!\n")
         col_name = input("Would you like a histogram of any of your columns?")
         location = self.histogram(data, col_name)
         print(location)
