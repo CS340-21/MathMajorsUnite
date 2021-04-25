@@ -10,7 +10,7 @@ class Parameters(Action):
     def parse_parameters():
         # required = True, then if no arguments then throws error and shows help
         parser = ArgumentParser(description='all things about the files')
-        parser.add_argument("--dir", default='./CarData.csv',
+        parser.add_argument("--dir", default='./CarData_2.csv',
                             help="please upload or attach the file or dir")
         return vars(parser.parse_args())
 
@@ -61,8 +61,10 @@ class Read(object):
         
         for col in new_columns.keys():
             new_name = input("Input new column name or keep name {}.\n".format(col))
-            if new_name != None:
+            if len(new_name) > 1:
                 new_columns[col] = new_name
+            else:
+                new_columns[col] = col
         
         return new_columns
     
