@@ -6,9 +6,10 @@
     <p class="lead">Visualize your high-dimensional data using principal component analysis (PCA) or t-stochastic neighbor embedding (t-SNE).</p>
 </div>
 
-<h2>Choose Column<h2>
+<h2>Choose Label</h2>
+    <p>Choose the column to use as your label for visualizing the dataset.</p>
 
-<form method='post' action="{% url 'pass_vis' pk %}">
+<form method='post' action="{% url 'visualize' pk %}">
     {% csrf_token %}
     <!--Drop down menu for column names-->
     <div class="custom-select">
@@ -18,6 +19,7 @@
                 <option value = "Java">Java</option>
                 <option value = "Discrete Mathematics">Discrete Mathematics</option>
             </select> -->
+            <option value="-1">-----</option>
             {% for c in columns %}
                 <!-- <input type='hidden' name='pk' value="{{ pk }}"> -->
                 <!-- <input type='hidden' name='c' value="{{ c }}"> -->
@@ -27,6 +29,7 @@
     </div>
 
     <h2>Choose Reduction Technique</h2>
+    <p>Choose a dimensionality reduction technique for your dataset.</p>
     <!--Drop down Menu for type of visualization-->
     <div class="custom-select">
         <select name="reduce_technique">
@@ -42,6 +45,10 @@
 </form>
 
 <!--Show image if needed-->
+{% if img %}
+<!-- {% load static %} -->
+<img src='data:image/png;base64, {{ img|safe }}' alt="Visualization of Data">
+{% endif %}
 
 
 

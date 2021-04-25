@@ -63,7 +63,11 @@ def pass_visualizations(request, pk):
         df = pd.read_csv(f.filename())
         name = f.title
 
-        reduce_and_normalize.get_reduction(df, col, tech, name)
+        if int(tech) >= 0 and col != -1:
+            img_path = reduce_and_normalize.get_reduction(df, col, int(tech), name)
+            # if f.is_valid():
+            #     f.cleaned_data['']
+            f.assign_image_name(img_path)
 
     # Redirects to initial visualization page
     return redirect('visualize', pk=pk)
