@@ -9,7 +9,25 @@ from sklearn.decomposition import PCA
 import io
 import urllib, base64
 
+def get_img(fig, dpi = 200):
+    buf = io.BytesIO()
+    fig.savefig(buf, format = 'png', dpi = dpi)
+    buf.seek(0)
+    string = base64.b64encode(buf.getvalue())
+    myplot = string.decode('utf-8')
+    buf.close()
+    plt.clf()
+    plt.close()
+
+    return myplot
+
 def get_reduction(df, col, tech, name):
+    '''
+    df: dataframe
+    col: column
+    tech: technique code (0 for PCA, 1 for TSNE)
+    name: filename
+    '''
 
     # Only want to include numerical data
     x = df.select_dtypes(include=np.number).to_numpy()
@@ -21,12 +39,9 @@ def get_reduction(df, col, tech, name):
         embed = pca.fit_transform(x)
         tname = 'PCA'
 
-    # elif tech == 1: # TSNE
     elif int(tech) == 1:
         embed = TSNE(n_components = 2).fit_transform(x)
         tname = 'TSNE'
-    # else:
-    #     return -1]
 
     plt.switch_backend('AGG')
 
@@ -45,17 +60,7 @@ def get_reduction(df, col, tech, name):
     fig.set_size_inches(10, 8)
     ax.set_title('{} of {} on {} labels'.format(tname, name, col))
 
-    buf = io.BytesIO()
-    # buf = io.StringIO()
-    fig.savefig(buf, format = 'png', dpi = 150)
-    buf.seek(0)
-    string = base64.b64encode(buf.getvalue())
-    myplot = string.decode('utf-8')
-    buf.close()
-    plt.clf()
-    plt.close()
-
     # Return decoded object
-    return myplot
+    return get_img(fig)
 
         
