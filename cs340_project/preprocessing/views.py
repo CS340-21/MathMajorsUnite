@@ -11,6 +11,21 @@ import sys; sys.path.append('media')
 import os
 import json
 
+import sys, os; sys.path.append('backend')
+import reduce_and_normalize
+
+# -----------------------------
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+
+from sklearn.manifold import TSNE
+from sklearn.decomposition import PCA
+
+import io
+import urllib, base64
+# -----------------------------
+
 def index(request):
   return render(request, 'preprocessing/index.html')
 
@@ -187,9 +202,6 @@ def edit_file(request):
 def visualize_data(request, pk):
   context = {}
 
-  # if request.method == 'POST':
-  #   pk = request.POST.getlist('pk')[0]
-
   # Retrieve file from database:
   f = Text.objects.get(pk=pk)
   context['name'] = f.title
@@ -199,5 +211,16 @@ def visualize_data(request, pk):
   context['columns'] = df.columns
 
   context['pk'] = pk
+
+  if request.method == 'POST':
+    col = request.POST.get('chosen_col', -1)
+    tech = request.POST.get('reduce_technique', -1)
+    if int(tech) >= 0 and col != "-1":
+      df = pd.read_csv(f.filename())
+      name = f.title
+
+      myplot = reduce_and_normalize.get_reduction(df, col, tech, name)
+
+      context['img'] = myplot
 
   return render(request, 'preprocessing/visualize.html', context)
