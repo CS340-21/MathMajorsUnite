@@ -105,19 +105,19 @@ class Read(object):
                     df = df.drop(columns_to_drop, axis=1)
         return data
     
-    def histogram(self, data, name):
-        if not name in data.columns:
-            return -1
-        try:
-            data[name] = data[name].astype(float)
-        except:
-            return 1
+#    def histogram(self, data, name):
+#        if not name in data.columns:
+#            return -1
+#        try:
+#            data[name] = data[name].astype(float)
+#        except:
+#            return 1
 
-        pic, ax = plt.subplots()
-        data.hist(column=name, ax=ax)
-        pic.savefig('hist.png')
-        exe = 'hist.png'
-        return os.path.abspath(exe)
+#        pic, ax = plt.subplots()
+#        data.hist(column=name, ax=ax)
+#        pic.savefig('hist.png')
+#        exe = 'hist.png'
+#        return os.path.abspath(exe)
     
     def regress(self, data, name):
         if not name in data.columns:
@@ -132,12 +132,12 @@ class Read(object):
         x = data.drop(name, axis=1)
         lr = LinearRegression()
         lr.fit(x,y)
-        'print(lr.score(x,y))'
-        print("\n{} = {}".format(name, lr.intercept_))
+        out = ""
+        out += "\n{} = {}".format(name, '{:.2f}'.format(lr.intercept_))
         for index, item in enumerate(lr.coef_):
-            print(" + {}*{}".format(item, x.columns[index]))
-        print("\nModel generated has an R^2 of {} on the given data!".format(lr.score(x,y)))
-        return lr
+            out += " + {}*{}".format('{:.2f}'.format(item), x.columns[index])
+        out += "\nModel generated has an R^2 of {} on the given data!".format('{:.2f}'.format(lr.score(x,y)))
+        return out
     
     def new_drop_column(self, filename, column):
         df = self.read_files(filename)
