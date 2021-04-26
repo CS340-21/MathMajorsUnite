@@ -8,7 +8,7 @@
 
 <div class="container">
     <h2 class="text-center">Report</h2>
-    <table class = "table">
+    <table class="table">
         <thead>
             <tr>
                 {% for c in columns %}
@@ -18,17 +18,21 @@
         </thead>
         <tbody>
             {% for _,data in report.iterrows %}
-                <tr>
+            <tr>
                 {% for value in data %}
-                    <td>{{ value }}</td>
+                <td>{{ value }}</td>
                 {% endfor %}
-                </tr>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
 
+<hr class="mt-4 mb-4 bg-primary">
+
 <form action="{% url 'process_text' %}">
-    <button>Back to Processing</button>
+    <div class="row justify-content-center">
+        <button class='col-sm-6 btn btn-primary' style='font-size: 30px'>Back to Processing</button>
+    </div>
 </form>
 {% endblock content %}

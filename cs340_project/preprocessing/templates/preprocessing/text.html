@@ -6,21 +6,6 @@
     <p class="lead">Go to the link below to upload your CSV files.</p>
 </div>
 
-<div class="row justify-content-center">
-    <div class="col-sm-6">
-        <div class="card">
-            <div class="card-body">
-                <form action="{% url 'upload_text' %}">
-                    <div class="text-center">
-                        <button class='btn btn-primary btn-sm' style='font-size: 30px'>Upload CSVs</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <h2 class="text-center mt-4">Uploaded CSV Files</h2>
 {% if texts %}
 <table class="table">
@@ -36,7 +21,7 @@
         <tr>
             <td>{{ tx.title }}</td>
             <td>
-                <a href="{{ tx.txt.url }}" class="btn btn-primary btn-sm">
+                <a href="{{ tx.txt.url }}" class="btn btn-success btn-sm">
                     Download
                 </a>
             </td>
@@ -56,21 +41,44 @@
 <p>Looks like you haven't uploaded any files yet! Click the link above to upload your first file.</p>
 {% endif %}
 
-
-<h2 class="text-center mt-4">Preprocessing</h2>
-<form action="{% url 'process_text' %}">
+<form action="{% url 'upload_text' %}">
     <div class="text-center">
-        <button class='btn btn-primary btn-lg' style='font-size: 20px'>Start Processing!</button>
+        <button class='btn btn-primary btn-sm' style='font-size: 30px'>Upload CSVs</button>
     </div>
 </form>
 
 
-<h2 class="text-center mt-4">Linear Regression</h2>
-<p>Run linear regression on your data!</p>
-<form action="{% url 'regression_main' %}">
-    <div class="text-center">
-        <button class='btn btn-primary btn-lg' style='font-size: 20px'>Start Processing!</button>
+<hr class="mt-4 mb-5 bg-primary">
+
+<div class="row justify-content-center">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title text-center">Preprocessing</h2>
+                <p class="card-text text-center">Tell us what you want to do with your data!</p>
+                <form action="{% url 'process_text' %}">
+                    <div class="text-center">
+                        <button class='btn btn-primary btn-lg' style='font-size: 20px'>Start Processing!</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-</form>
+
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title text-center">Linear Regression</h2>
+                <p class="card-text text-center">Run linear regression on your data!</p>
+                <form action="{% url 'regression_main' %}">
+                    <div class="text-center">
+                        <button class='btn btn-primary btn-lg' style='font-size: 20px'>Start Processing!</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 {% endblock content %}

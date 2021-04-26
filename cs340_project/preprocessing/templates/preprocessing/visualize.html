@@ -3,45 +3,85 @@
 
 <div class="jumbotron">
     <h1 class="display-4">Visualize {{ name }}</h1>
-    <p class="lead">Visualize your high-dimensional data using principal component analysis (PCA) or t-stochastic neighbor embedding (t-SNE).</p>
+    <p class="lead">Visualize your high-dimensional data using principal component analysis (PCA) or t-stochastic
+        neighbor embedding (t-SNE).</p>
 </div>
 
 <!-- <p><a href="{% url 'process_text' %}">Back to Processing</a></p> -->
-<form action="{% url 'process_text' %}">
+<!-- <form action="{% url 'process_text' %}">
     <button>Back to Processing</button>
-</form>
-
-<h2>Choose Label</h2>
-    <p>Choose the column to use as your label for visualizing the dataset.</p>
+</form> -->
 
 <form method='post' action="{% url 'visualize' pk %}">
-    {% csrf_token %}
-    <!--Drop down menu for column names-->
-    <div class="custom-select">
-        <select name="chosen_col">
+    <div class="row justify-content-center">
+        {% csrf_token %}
 
-            <option value="-1">-----</option>
-            {% for c in columns %}
-                <option value="{{ c }}">{{ c }}</option> 
-            {% endfor %}
-        </select>
-    </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Choose Label</h2>
+                    <p class="card-text text-center">Choose the column to use as your label for visualizing the dataset.
+                    </p>
+                    <div class="custom-select text-center">
+                        <select name="chosen_col">
 
-    <h2>Choose Reduction Technique</h2>
-    <p>Choose a dimensionality reduction technique for your dataset.</p>
-    <!--Drop down Menu for type of visualization-->
-    <div class="custom-select">
-        <select name="reduce_technique">
-            <option value="-1">-----</option>
-            <option value="0">PCA</option>
-            <option value="1">T-SNE</option>
-            <option value="2">Histogram</option>
-        </select>
-    </div>
+                            <option value="-1">-----</option>
+                            {% for c in columns %}
+                            <option value="{{ c }}">{{ c }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-    <!-- <input type='hidden' name="col" value="chosen_col">
+            <!-- <h2>Choose Label</h2>
+            <p>Choose the column to use as your label for visualizing the dataset.</p> -->
+            <!--Drop down menu for column names-->
+            <!-- <div class="custom-select">
+                <select name="chosen_col">
+
+                    <option value="-1">-----</option>
+                    {% for c in columns %}
+                    <option value="{{ c }}">{{ c }}</option>
+                    {% endfor %}
+                </select>
+            </div> -->
+        </div>
+
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Choose Reduction Technique</h2>
+                    <p class="card-text text-center">Choose a dimensionality reduction technique for your dataset.
+                    </p>
+                    <div class="custom-select text-center">
+                        <select name="reduce_technique">
+                            <option value="-1">-----</option>
+                            <option value="0">PCA</option>
+                            <option value="1">T-SNE</option>
+                            <option value="2">Histogram</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <h2>Choose Reduction Technique</h2>
+            <p>Choose a dimensionality reduction technique for your dataset.</p> -->
+            <!--Drop down Menu for type of visualization-->
+            <!-- <div class="custom-select">
+                <select name="reduce_technique">
+                    <option value="-1">-----</option>
+                    <option value="0">PCA</option>
+                    <option value="1">T-SNE</option>
+                    <option value="2">Histogram</option>
+                </select>
+            </div> -->
+        </div>
+
+        <!-- <input type='hidden' name="col" value="chosen_col">
     <input type='hidden' name="tech" value="reduce_technique"> -->
-    <button type="submit" class='btn btn-primary btn-sm'>Visualize</button>
+        <button type="submit" class='btn btn-primary col-sm-6 mt-3'>Visualize</button>
+    </div>
 </form>
 
 <!--Show image if needed-->
@@ -51,5 +91,13 @@
 {% elif hist_error == -1 %}
 <p>For Histogram, please choose a column with numerical values!</p>
 {% endif %}
+
+<hr class="mt-4 mb-4 bg-primary">
+
+<form action="{% url 'process_text' %}">
+    <div class="row justify-content-center">
+        <button class='col-sm-6 btn btn-primary' style='font-size: 30px'>Back to Processing</button>
+    </div>
+</form>
 
 {% endblock content %}

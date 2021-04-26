@@ -46,11 +46,13 @@
 </form>
 {% endif %} -->
 
-
+<hr class="mt-4 mb-4 bg-primary">
 
 <form method="post" action="{% url 'preprocessing-text' %}">
     {% csrf_token %}
-    <button>Back to Overview</button>
+    <div class="row justify-content-center">
+        <button class='col-sm-6 btn btn-primary' style='font-size: 30px'>Back to Overview</button>
+    </div>
 </form>
 
 {% endblock content %}
