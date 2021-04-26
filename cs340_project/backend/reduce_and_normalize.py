@@ -50,6 +50,11 @@ def get_reduction(df, col, tech, name):
         tname = 'TSNE'
         
     elif int(tech) == 2:
+        # Histogram functionality
+        if not pd.api.types.is_numeric_dtype(df[col]):
+            # Error check
+            return None
+       
         fig, ax = plt.subplots()
         df.hist(column=col, ax=ax)
         fig.set_size_inches(10, 8)

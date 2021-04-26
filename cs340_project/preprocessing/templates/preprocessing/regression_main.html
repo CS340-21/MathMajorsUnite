@@ -17,9 +17,9 @@
             <td>{{ tx.title }}</td>
             <td>
                 <!-- <form method="post" action="{% url 'regression_file' tx.pk %}"> -->
-                <form method="post" action="{% url 'regression_main' %}">
+                <form method="post" action="{% url 'regression_file' tx.pk %}">
                     {% csrf_token %}
-                    <input type='hidden' name='pk' value="{{ tx.pk }}">
+                    <!-- <input type='hidden' name='pk' value="{{ tx.pk }}"> -->
                     <button type="submit" class='btn btn-primary btn-sm'>Run Regression</button>
                 </form>
             </td>
@@ -28,9 +28,25 @@
     </tbody>
 </table>
 
-{% if name %}
-<p> NAME </p>
-{% endif %}
+<!-- {% if name %}
+<h4>Choose column in {{ name }} to predict</h4>
+
+<form method='post' action="{% url 'regression_main' %}">
+    {% csrf_token %}
+    <div class="custom-select">
+        <select name="chosen_col">
+            <option value="-1">-----</option>
+            {% for c in columns %}
+                <option value="{{ c }}">{{ c }}</option> 
+            {% endfor %}
+        </select>
+    </div>
+    <input type='hidden' name='pk' value="{{ pk }}">
+    <button type="submit" class='btn btn-primary btn-sm'>Run Regression</button>
+</form>
+{% endif %} -->
+
+
 
 <form method="post" action="{% url 'preprocessing-text' %}">
     {% csrf_token %}

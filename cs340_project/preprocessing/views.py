@@ -13,6 +13,7 @@ import json
 
 import sys, os; sys.path.append('backend')
 import reduce_and_normalize
+from read import Read
 
 # -----------------------------
 import os
@@ -180,12 +181,12 @@ def generate_report(request, pk):
 
   return render(request, 'preprocessing/report.html', context)
 
-def edit_file(request):
+def edit_file(request, pk):
   '''Edits data for one individual file'''
   context = {}
 
-  if request.method == 'POST':
-    pk = request.POST.getlist('pk')[0]
+  #if request.method == 'POST':
+  # pk = request.POST.getlist('pk')[0]
 
   # Retrieve file from database:
   f = Text.objects.get(pk=pk)
@@ -220,8 +221,10 @@ def visualize_data(request, pk):
       name = f.title
 
       myplot = reduce_and_normalize.get_reduction(df, col, tech, name)
-
-      context['img'] = myplot
+      if myplot is None:
+        context['hist_error'] = -1
+      else:
+        context['img'] = myplot
 
   return render(request, 'preprocessing/visualize.html', context)
 
@@ -237,6 +240,7 @@ def regression_main(request):
       return render(request, 'preprocessing/regression_main.html', context)
 
     f = Text.objects.get(pk=pk)
+    context['pk'] = pk
     context['name'] = f.title
 
   return render(request, 'preprocessing/regression_main.html', context)
@@ -247,7 +251,30 @@ def regression_file(request, pk):
 
   f = Text.objects.get(pk=pk)
   context['name'] = f.title
+  context['pk'] = pk
 
-  # Run regression
+  if request.method == 'POST':
 
-  return render(request, '', context)
+    cols = pd.read_csv(f.filename()).columns
+    context['columns'] = cols
+
+    chosen_col = request.POST.get('chosen_col', -1)
+    if chosen_col != "-1":
+      r = Read()
+      out1, out2, out_dict, r2 = r.regress(f.filename(), chosen_col)
+      if out1 != -1 and \
+          out2 != -1 and \
+          (out_dict != -1 and out_dict != 0) and\
+          r2 != -1:
+        context['ccol'] = chosen_col
+        context['reg_dict'] = out_dict
+        context['r2'] = r2
+        context['reg_message1'] = out1
+        context['reg_message2'] = out2
+      elif out_dict == 0:
+        context['error_message'] = 1
+    # # Run regression
+    # r = Read()
+    # out = r.regress(f.filename(), cols)
+
+  return render(request, 'preprocessing/regression_file.html', context)

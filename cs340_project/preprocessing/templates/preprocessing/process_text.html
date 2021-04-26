@@ -81,9 +81,9 @@
                 </form>
             </td>
             <td>
-                <form method='post' action="{% url 'edit_file' %}">
+                <form method='post' action="{% url 'edit_file' tx.pk %}">
                     {% csrf_token %}
-                    <input type='hidden' value='{{ tx.pk }}' name='pk'>
+                    <!-- <input type='hidden' value='{{ tx.pk }}' name='pk'> -->
                     <button type="submit" class='btn btn-primary btn-sm'>Edit File</button>
                 </form>
             </td>
