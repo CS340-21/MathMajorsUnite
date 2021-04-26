@@ -20,7 +20,7 @@
             {% for c in columns %}
             <tr>
                 <th>{{ c }}</th>
-                <form method="post" action="{% url 'rename' %}">
+                <form method="post" action="{% url 'rename' pk %}">
                     {% csrf_token %}
                     <th>
                         <input type='text' name='new_name'>
@@ -37,31 +37,32 @@
     </table>
 </div>
 
-<div class="container">
-    <h2 class="text-center">Drop Columns</h2>
-    <form method="post" action="{% url 'drop' %}"></form>
-        <table class = "table">
-            <thead>
-                <tr>
 
-                </tr>
-            </thead>
-            <tbody>
-                {% for c in columns %}
-                <tr>
-                    <td>{{ c }}</td>
-                        {% csrf_token %}
-                        <td>
-                            <input type="checkbox" name="merge_files" value='{{ tx.pk }}'></input>
-                        </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<h2 class="text-center">Drop Columns</h2>
+<form method="post" action="{% url 'drop' pk %}">
+    {% csrf_token %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Column Name</th>
+                <th>Drop Column?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in columns %}
+            <tr>
+                <td>{{ c }}</td>
+                <td>
+                    <input type="checkbox" name="cols_to_drop" value='{{ c }}'></input>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-        <button type="submit" class='btn btn-primary btn-sm'>Drop Columns</button>
-    </form>
-</div>
+    <button type="submit">Drop Columns</button>
+    <br>
+</form>
 
 
 <form action="{% url 'process_text' %}">

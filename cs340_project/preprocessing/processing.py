@@ -10,6 +10,7 @@ from .models import Images, Text
 # BACKEND IMPORT
 import sys, os; sys.path.append('backend')
 import reduce_and_normalize
+from read import Read
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -43,19 +44,42 @@ def merge(request):
 
     return redirect('process_text')
 
-def rename(request):
+def rename(request, pk):
 
     if request.method == 'POST':
-        new_name = request.POST.getlist('new_name')
+        new_name = request.POST.get('new_name', -1)
+        old_name = request.POST.get('c', -1)
+
+        f = Text.objects.get(pk=pk)
+        fname = f.filename()
+
+        # Edit file:
+        if old_name == -1 or new_name == -1:
+            print('early exit')
+            return redirect('edit_file', pk=pk)
+
+        r = Read()
+        r.new_rename_column(fname, old_name, new_name)
+        f.save()
 
     # Actually renaming the columns
 
-    return redirect('edit_file')
+    return redirect('edit_file', pk=pk)
 
-def drop_cols(request):
+def drop_cols(request, pk):
+    print('indrop')
 
+    if request.method == 'POST':
+        to_drop = request.POST.getlist('cols_to_drop')
 
-    return redirect('edit_file')
+        f = Text.objects.get(pk=pk)
+        fname = f.filename()
+
+        r = Read()
+        r.new_drop_column(fname, to_drop)
+        f.save()
+
+    return redirect('edit_file', pk=pk)
 
 def pass_visualizations(request, pk):
     '''Gets data from visualization call, call visualizer function'''

@@ -6,4 +6,72 @@
     <p class="lead">Go to the link below to upload your CSV files.</p>
 </div>
 
+<h2 class="text-center">Which Column to Predict?</h2>
+<h4>Choose column in {{ name }} to predict</h4>
+
+<form method='post' action="{% url 'regression_file' pk %}">
+    {% csrf_token %}
+    <div class="custom-select">
+        <select name="chosen_col">
+            <option value="-1">-----</option>
+            {% for c in columns %}
+                <option value="{{ c }}">{{ c }}</option> 
+            {% endfor %}
+        </select>
+    </div>
+    <!-- <input type='hidden' name='pk' value="{{ pk }}"> -->
+    <button type="submit" class='btn btn-primary btn-sm'>Run Regression</button>
+</form>
+
+<p><br></p>
+
+{% if ccol %}
+    <h4>Predicting: {{ ccol }}</h4>
+{% endif %}
+
+{% if reg_dict %}
+<table class = "table">
+    <thead>
+        <tr>
+            <th>Variable</th>
+            <th>Coefficient</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c, v in reg_dict %}
+        <tr>
+            <td>{{ c }}</td>
+            <td>{{ v }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if r2 %}
+<p>R^2 value = {{ r2 }}</p>
+{% endif %}
+
+{% if reg_message1 %}
+    <p>Equation: {{ reg_message1 }}</p>
+{% endif %}
+
+{% if reg_message2 %}
+    <p>{{ reg_message2 }}</p>
+{% endif %}
+
+{% if error_message %}
+    <p>Make sure that the column you're trying to predict has numeric values!</p>
+{% endif %}
+
+<form method="post" action="{% url 'regression_main' %}">
+    {% csrf_token %}
+    <button>Run Another Regression</button>
+</form>
+
+<form method="post" action="{% url 'preprocessing-text' %}">
+    {% csrf_token %}
+    <button>Back to Overview</button>
+</form>
+
 {% endblock content %}

@@ -19,15 +19,9 @@
     <!--Drop down menu for column names-->
     <div class="custom-select">
         <select name="chosen_col">
-            <!-- <select name = "dropdown">
-                <option value = "Computer Architecture" selected>Computer Architecture</option>
-                <option value = "Java">Java</option>
-                <option value = "Discrete Mathematics">Discrete Mathematics</option>
-            </select> -->
+
             <option value="-1">-----</option>
             {% for c in columns %}
-                <!-- <input type='hidden' name='pk' value="{{ pk }}"> -->
-                <!-- <input type='hidden' name='c' value="{{ c }}"> -->
                 <option value="{{ c }}">{{ c }}</option> 
             {% endfor %}
         </select>
@@ -41,6 +35,7 @@
             <option value="-1">-----</option>
             <option value="0">PCA</option>
             <option value="1">T-SNE</option>
+            <option value="2">Histogram</option>
         </select>
     </div>
 
@@ -53,6 +48,8 @@
 {% if img %}
 <!-- {% load static %} -->
 <img src='data:image/png;base64, {{ img|safe }}' alt="Visualization of Data">
+{% elif hist_error == -1 %}
+<p>For Histogram, please choose a column with numerical values!</p>
 {% endif %}
 
 {% endblock content %}
