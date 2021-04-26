@@ -27,7 +27,6 @@ class Text(models.Model):
 
     # Image name:
     img_location = models.CharField(max_length = 100, default = None)
-    #img_location = ""
 
     # Records date that data was added:
     added = models.DateTimeField(auto_now = True)
@@ -39,28 +38,9 @@ class Text(models.Model):
         name = os.path.join(os.getcwd(), 'media/media/text', os.path.basename(self.txt.name))
         return name
 
-    # Functionality to deal with images:
-    def assign_image_name(self, name):
-
-        # if self.img_location is not None:
-        #     os.remove(self.img_location)
-
-        self.img_location = name
-        print(name)
-        print(self.img_location)
-        self.save()
-
-    def get_image_name(self):
-        if self.img_location is not None:
-            return self.img_location
-        else:
-            print(self.img_location)
-            return -1 # No image
-
     def save(self, *args, **kwargs):
         # Calls save on the model:
         super(Text, self).save(*args, **kwargs)
-        #if self.txt.name is not None:
         fname = self.filename()
 
         df = pd.read_csv(fname)

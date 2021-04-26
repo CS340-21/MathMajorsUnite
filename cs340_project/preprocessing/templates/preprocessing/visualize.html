@@ -6,7 +6,6 @@
     <p class="lead">Visualize your high-dimensional data using principal component analysis (PCA) or t-stochastic neighbor embedding (t-SNE).</p>
 </div>
 
-<!-- <p><a href="{% url 'process_text' %}">Back to Processing</a></p> -->
 <form action="{% url 'process_text' %}">
     <button>Back to Processing</button>
 </form>
@@ -27,7 +26,7 @@
         </select>
     </div>
 
-    <h2>Choose Reduction Technique</h2>
+    <h2>Choose Visualization</h2>
     <p>Choose a dimensionality reduction technique for your dataset.</p>
     <!--Drop down Menu for type of visualization-->
     <div class="custom-select">
@@ -39,14 +38,11 @@
         </select>
     </div>
 
-    <!-- <input type='hidden' name="col" value="chosen_col">
-    <input type='hidden' name="tech" value="reduce_technique"> -->
     <button type="submit" class='btn btn-primary btn-sm'>Visualize</button>
 </form>
 
 <!--Show image if needed-->
 {% if img %}
-<!-- {% load static %} -->
 <img src='data:image/png;base64, {{ img|safe }}' alt="Visualization of Data">
 {% elif hist_error == -1 %}
 <p>For Histogram, please choose a column with numerical values!</p>
