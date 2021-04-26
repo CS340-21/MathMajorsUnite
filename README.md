@@ -1,4 +1,5 @@
-# Math Majors Unite
+# Dolphyn Small Business Insights
+**Group Name**: Math Majors Unite
 ## Group Members
 Georgia Channing  
 Harry Channing  
