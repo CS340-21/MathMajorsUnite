@@ -33,56 +33,13 @@ def index(request):
 def about(request):
   return render(request, 'preprocessing/about.html')
 
-def image(request):
-  # Allows us to send data back to the page
-  context = {}
-
-  # Image loading code:
-  if request.method == "POST":
-    form = ImagesForm(request.POST, request.FILES)
-    if form.is_valid():
-      form.save()
-      
-  else: # If not a post request, instantiate empty form
-    form = ImagesForm()
-
-  #  uploaded_file = request.FILES['img_data']
-  #  fs = FileSystemStorage()
-  #  name = fs.save(uploaded_file.name, uploaded_file)
-  #  context['url'] = fs.url(name)
-
-  imgs = Images.objects.all()
-  context['images'] = imgs
-
-  # Get form
-  context['form'] = form
-
-  return render(request, 'preprocessing/image.html', context)
-
-def delete_image(request, pk):
-  if request.method == 'POST':
-    img = Images.objects.get(pk=pk)
-    img.delete()
-  return redirect('preprocessing-image')
-
 def text(request):
   # Allows us to send data back to the HTML page
   context = {}
 
-  # # Image loading code:
-  # if request.method == "POST":
-  #   form = TextForm(request.POST, request.FILES)
-  #   if form.is_valid():
-  #     form.save()
-      
-  # else: # If not a post request, instantiate empty form
-  #   form = TextForm()
-
   txts = Text.objects.all()
   context['texts'] = txts
 
-  # Get form
-  # context['form'] = form
   return render(request, 'preprocessing/text.html', context)
 
 def upload_text(request):
@@ -104,55 +61,15 @@ def delete_text(request, pk):
     img.delete()
   return redirect('preprocessing-text')
 
-#def start_text_button(request):
-#  return redirect('preprocessing-text')
-
 def process_text(request):
   # Processing text data (i.e. user interaction)
-
   context = {}
-
-  # # Image loading code:
-  # if request.method == "POST":
-  #   form = TextForm(request.POST, request.FILES)
-  #   if form.is_valid():
-  #     form.save()
-      
-  # else: # If not a post request, instantiate empty form
-  #   form = TextForm()
 
   txts = Text.objects.all()
   context['texts'] = txts
   context['nfiles'] = Text.objects.count()
 
-  # fs = Text.objects.values('txt')[0]['txt']
-
-  # file_list = list(Text.objects.values('txt'))
-  # for f in file_list:
-  #   temp_df = pd.read_csv(os.path.join('media', f['txt']))
-  #   Text.objects.update_or_create(
-  #     txt = f['txt'], 
-  #     rows = temp_df.shape[0], 
-  #     cols = temp_df.shape[1]
-  #   )
-
-  # #sys.path.append('media')
-  # df = pd.read_csv(os.path.join('media', fs))
-  # #df = pd.read_csv(fs)
-  # #df = pd.read_csv('../media/text/upec_meta.csv')
-  # print(df.shape)
-
-  # Get form
-  #context['form'] = form
-
-  #df = pd.DataFrame(txts)
-  #print(df)
-
   return render(request, 'preprocessing/process_text.html', context)
-
-def process_image(request):
-  # Processing image data (i.e. user interaction)
-  return render(request, 'preprocessing/process_image.html')
 
 def generate_report(request, pk):
   '''Generates report for a given model'''
@@ -173,7 +90,7 @@ def generate_report(request, pk):
     json_records = report.reset_index().to_json(orient = 'records')
     data = []
     data = json.loads(json_records)
-    #context['report'] = data
+    
     context['report'] = report
     context['columns'] = [str(c) for c in report.columns]
 
@@ -184,9 +101,6 @@ def generate_report(request, pk):
 def edit_file(request, pk):
   '''Edits data for one individual file'''
   context = {}
-
-  #if request.method == 'POST':
-  # pk = request.POST.getlist('pk')[0]
 
   # Retrieve file from database:
   f = Text.objects.get(pk=pk)
@@ -273,8 +187,5 @@ def regression_file(request, pk):
         context['reg_message2'] = out2
       elif out_dict == 0:
         context['error_message'] = 1
-    # # Run regression
-    # r = Read()
-    # out = r.regress(f.filename(), cols)
 
   return render(request, 'preprocessing/regression_file.html', context)

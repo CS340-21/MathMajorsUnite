@@ -13,6 +13,7 @@ def get_img(fig, dpi = 200):
     '''
     fig: Figure from Matplotlib
     fig, ax = plt.subplots()
+    dpi: resolution of image
     '''
     buf = io.BytesIO()
     fig.savefig(buf, format = 'png', dpi = dpi)

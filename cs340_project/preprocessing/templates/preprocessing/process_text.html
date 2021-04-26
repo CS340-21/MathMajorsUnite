@@ -53,22 +53,12 @@
             <td>{{ tx.title }}</td>
             <td>
                 {{ tx.rows }}
-                <!-- <a href="{{ tx.txt.url }}" class="btn btn-primary btn-sm">
-                    Download
-                </a> -->
+            </td>
+            <td>
+                {{ tx.cols }}
             </td>
             <td>
                 <!-- Always use post to modify data in database -->
-
-                {{ tx.cols }}
-            </td>
-            <!-- <td>
-                <form method="post" action="{% url 'delete_text' tx.pk %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btnm btn-danger btn-sm">Remove</button>
-                </form>
-            </td> -->
-            <td>
                 <form method='post' action="{% url 'generate_report' tx.pk %}">
                     {% csrf_token %}
                     <button type="submit" class='btn btn-primary btn-sm'>Generate Report</button>
@@ -83,7 +73,6 @@
             <td>
                 <form method='post' action="{% url 'edit_file' tx.pk %}">
                     {% csrf_token %}
-                    <!-- <input type='hidden' value='{{ tx.pk }}' name='pk'> -->
                     <button type="submit" class='btn btn-primary btn-sm'>Edit File</button>
                 </form>
             </td>
@@ -99,40 +88,6 @@
 
 <hr class="mt-5 mb-3 bg-primary">
 
-<!-- List different functionalities in h2 headers -->
-<h2 class="text-center mt-4">Merging Files</h2>
-<!-- button for calling function to merge files -->
-<!-- <form method="post" action="{% url 'text_call' %}?fn_code=1"> -->
-<form method="post" action="{% url 'merge' %}">
-    {% csrf_token %}
-    <table class="table">
-        <thread>
-            <tr>
-                <th>Title</th>
-                <th>Merge?</th>
-            </tr>
-        </thread>
-        <tbody>
-            {% for tx in texts %}
-            <tr>
-                <td>{{ tx.title }}</td>
-                <td>
-                    <input type="checkbox" name="merge_files" value='{{ tx.pk }}'></input>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <input type='text' name='merge_fname'>
-    <button type='submit' class='btn btn-sm btn-primary'>Merge Files</button>
-    <!-- <div class="text-center">
-        <button class="btn btn-primary btn-lg">Merge</button>
-    </div> -->
-    <br>
-</form>
-
-<hr class="mt-5 mb-4 bg-primary">
 
 <form action="{% url 'preprocessing-text' %}">
     {% csrf_token %}
