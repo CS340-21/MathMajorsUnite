@@ -18,7 +18,7 @@
             <td>
                 <form method="post" action="{% url 'regression_file' tx.pk %}">
                     {% csrf_token %}
-                    <button type="submit" class='btn btn-primary btn-sm'>Run Regression</button>
+                    <button type="submit" class='btn btn-success btn-sm'>Run Regression</button>
                 </form>
             </td>
         </tr>

@@ -61,19 +61,19 @@
                 <!-- Always use post to modify data in database -->
                 <form method='post' action="{% url 'generate_report' tx.pk %}">
                     {% csrf_token %}
-                    <button type="submit" class='btn btn-primary btn-sm'>Generate Report</button>
+                    <button type="submit" class='btn btn-success btn-sm'>Generate Report</button>
                 </form>
             </td>
             <td>
                 <form method='post' action="{% url 'visualize' tx.pk %}">
                     {% csrf_token %}
-                    <button type="submit" class='btn btn-primary btn-sm'>Visualize Data</button>
+                    <button type="submit" class='btn btn-info btn-sm'>Visualize Data</button>
                 </form>
             </td>
             <td>
                 <form method='post' action="{% url 'edit_file' tx.pk %}">
                     {% csrf_token %}
-                    <button type="submit" class='btn btn-primary btn-sm'>Edit File</button>
+                    <button type="submit" class='btn btn-warning btn-sm'>Edit File</button>
                 </form>
             </td>
         </tr>
